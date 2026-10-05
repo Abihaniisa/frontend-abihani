@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search } from 'lucide-react';
+import { Search } from './icons';
 import { useFeedStore } from '../store/feed.store';
 import { useUIStore } from '../store/ui.store';
 

@@ -1,0 +1,18 @@
+export const NIGERIA_LOCATIONS = [
+  'Lagos (Ikeja)',
+  'Lagos (Lekki / VI)',
+  'Lagos (Yaba / Surulere)',
+  'Abuja (FCT)',
+  'Kano (Kano Municipal)',
+  'Rivers (Port Harcourt)',
+  'Oyo (Ibadan)',
+  'Kaduna (Kaduna Central)',
+  'Enugu (Enugu Urban)',
+  'Edo (Benin City)',
+  'Delta (Warri / Asaba)',
+  'Ogun (Abeokuta)',
+  'Anambra (Onitsha)',
+  'Plateau (Jos)',
+] as const;
+
+export type NigeriaLocation = typeof NIGERIA_LOCATIONS[number];

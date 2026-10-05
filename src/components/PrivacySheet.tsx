@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Lock } from 'lucide-react';
+import { X, Lock } from './icons';
 
 interface PrivacySheetProps {
   isOpen: boolean;

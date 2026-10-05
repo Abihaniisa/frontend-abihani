@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Send, MessageCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { X, Send, MessageCircle, AlertCircle, RefreshCw } from './icons';
 import { Post } from '../types/post.types';
 import { CommentItem } from '../types/comment.types';
 import { PostService } from '../services';

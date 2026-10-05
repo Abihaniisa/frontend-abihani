@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download, X } from './icons';
 import { usePWAInstall } from '../hooks/usePWAInstall';
 
 export const PWAInstallPrompt: React.FC = () => {

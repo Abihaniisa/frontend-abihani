@@ -1,29 +1,35 @@
 import React from 'react';
-import { Home, Compass, Plus, Package, User } from 'lucide-react';
-import { useUIStore, ScreenType } from '../store/ui.store';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Home, Compass, Plus, Package, User } from './icons';
 import { useOrderStore } from '../store/order.store';
+import { useUIStore } from '../store/ui.store';
 
 interface BottomNavProps {
   onHomeClick?: () => void;
 }
 
 export const BottomNav: React.FC<BottomNavProps> = ({ onHomeClick }) => {
-  const { currentScreen, navigate } = useUIStore();
+  const location = useLocation();
+  const routerNavigate = useNavigate();
+  const { navigate: storeNavigate } = useUIStore();
   const { orders } = useOrderStore();
 
+  const currentPath = location.pathname;
   const hasUnreadOrders = orders.some((o) => o.hasUnreadBuyer || o.hasUnreadSeller);
 
-  const handleTabClick = (screen: ScreenType): void => {
-    if (screen === 'home') {
-      if (currentScreen === 'home' && onHomeClick) {
-        onHomeClick();
-      } else {
-        navigate('home');
-      }
+  const handleTabClick = (path: string, screenKey: 'home' | 'discover' | 'create' | 'orders' | 'you'): void => {
+    storeNavigate(screenKey);
+    if (path === '/' && currentPath === '/') {
+      if (onHomeClick) onHomeClick();
     } else {
-      navigate(screen);
+      routerNavigate(path);
     }
   };
+
+  const isHome = currentPath === '/';
+  const isDiscover = currentPath === '/discover';
+  const isOrders = currentPath.startsWith('/orders') || currentPath.startsWith('/thread');
+  const isYou = currentPath === '/profile' || currentPath.startsWith('/settings');
 
   return (
     <div className="fixed bottom-4 left-0 right-0 z-40 flex justify-center pointer-events-none px-3">
@@ -35,44 +41,44 @@ export const BottomNav: React.FC<BottomNavProps> = ({ onHomeClick }) => {
       >
         {/* 1. Home */}
         <button
-          onClick={() => handleTabClick('home')}
+          onClick={() => handleTabClick('/', 'home')}
           className="flex flex-col items-center justify-center flex-1 h-full select-none cursor-pointer focus:outline-none"
         >
           <Home
             className={`transition-all duration-150 text-[#F5F0E6] ${
-              currentScreen === 'home' ? 'w-[23px] h-[23px] opacity-100' : 'w-[20px] h-[20px] opacity-90'
+              isHome ? 'w-[23px] h-[23px] opacity-100' : 'w-[20px] h-[20px] opacity-90'
             }`}
           />
           <span
             className={`text-[10px] font-semibold tracking-tight text-[#F5F0E6] mt-0.5 leading-none ${
-              currentScreen === 'home' ? 'opacity-100 font-bold' : 'opacity-90'
+              isHome ? 'opacity-100 font-bold' : 'opacity-90'
             }`}
           >
             Home
           </span>
-          {currentScreen === 'home' && (
+          {isHome && (
             <span className="w-[5px] h-[5px] rounded-full bg-[#F5F0E6] mt-1" />
           )}
         </button>
 
         {/* 2. Discover */}
         <button
-          onClick={() => handleTabClick('discover')}
+          onClick={() => handleTabClick('/discover', 'discover')}
           className="flex flex-col items-center justify-center flex-1 h-full select-none cursor-pointer focus:outline-none"
         >
           <Compass
             className={`transition-all duration-150 text-[#F5F0E6] ${
-              currentScreen === 'discover' ? 'w-[23px] h-[23px] opacity-100' : 'w-[20px] h-[20px] opacity-90'
+              isDiscover ? 'w-[23px] h-[23px] opacity-100' : 'w-[20px] h-[20px] opacity-90'
             }`}
           />
           <span
             className={`text-[10px] font-semibold tracking-tight text-[#F5F0E6] mt-0.5 leading-none ${
-              currentScreen === 'discover' ? 'opacity-100 font-bold' : 'opacity-90'
+              isDiscover ? 'opacity-100 font-bold' : 'opacity-90'
             }`}
           >
             Discover
           </span>
-          {currentScreen === 'discover' && (
+          {isDiscover && (
             <span className="w-[5px] h-[5px] rounded-full bg-[#F5F0E6] mt-1" />
           )}
         </button>
@@ -80,7 +86,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ onHomeClick }) => {
         {/* 3. Center Plus Button: Gold background, crimson plus sign. Slightly raised. */}
         <div className="flex items-center justify-center flex-1">
           <button
-            onClick={() => handleTabClick('create')}
+            onClick={() => handleTabClick('/create', 'create')}
             className="flex items-center justify-center w-[44px] h-[44px] rounded-full bg-[#E7C27A] text-[#C41E3A] shadow-md -translate-y-1 active:scale-95 transition-transform cursor-pointer focus:outline-none"
             aria-label="Create Post"
           >
@@ -90,15 +96,13 @@ export const BottomNav: React.FC<BottomNavProps> = ({ onHomeClick }) => {
 
         {/* 4. Orders */}
         <button
-          onClick={() => handleTabClick('orders')}
+          onClick={() => handleTabClick('/orders', 'orders')}
           className="relative flex flex-col items-center justify-center flex-1 h-full select-none cursor-pointer focus:outline-none"
         >
           <div className="relative">
             <Package
               className={`transition-all duration-150 text-[#F5F0E6] ${
-                currentScreen === 'orders' || currentScreen === 'thread'
-                  ? 'w-[23px] h-[23px] opacity-100'
-                  : 'w-[20px] h-[20px] opacity-90'
+                isOrders ? 'w-[23px] h-[23px] opacity-100' : 'w-[20px] h-[20px] opacity-90'
               }`}
             />
             {hasUnreadOrders && (
@@ -107,40 +111,34 @@ export const BottomNav: React.FC<BottomNavProps> = ({ onHomeClick }) => {
           </div>
           <span
             className={`text-[10px] font-semibold tracking-tight text-[#F5F0E6] mt-0.5 leading-none ${
-              currentScreen === 'orders' || currentScreen === 'thread'
-                ? 'opacity-100 font-bold'
-                : 'opacity-90'
+              isOrders ? 'opacity-100 font-bold' : 'opacity-90'
             }`}
           >
             Orders
           </span>
-          {(currentScreen === 'orders' || currentScreen === 'thread') && (
+          {isOrders && (
             <span className="w-[5px] h-[5px] rounded-full bg-[#F5F0E6] mt-1" />
           )}
         </button>
 
         {/* 5. You */}
         <button
-          onClick={() => handleTabClick('you')}
+          onClick={() => handleTabClick('/profile', 'you')}
           className="flex flex-col items-center justify-center flex-1 h-full select-none cursor-pointer focus:outline-none"
         >
           <User
             className={`transition-all duration-150 text-[#F5F0E6] ${
-              currentScreen === 'you' || currentScreen === 'settings'
-                ? 'w-[23px] h-[23px] opacity-100'
-                : 'w-[20px] h-[20px] opacity-90'
+              isYou ? 'w-[23px] h-[23px] opacity-100' : 'w-[20px] h-[20px] opacity-90'
             }`}
           />
           <span
             className={`text-[10px] font-semibold tracking-tight text-[#F5F0E6] mt-0.5 leading-none ${
-              currentScreen === 'you' || currentScreen === 'settings'
-                ? 'opacity-100 font-bold'
-                : 'opacity-90'
+              isYou ? 'opacity-100 font-bold' : 'opacity-90'
             }`}
           >
             You
           </span>
-          {(currentScreen === 'you' || currentScreen === 'settings') && (
+          {isYou && (
             <span className="w-[5px] h-[5px] rounded-full bg-[#F5F0E6] mt-1" />
           )}
         </button>

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { Award, Share2, X } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import React from 'react';
+import { Award, Share2, X } from './icons';
 import { MilestoneData } from '../store/ui.store';
 
 interface MilestoneCardProps {
@@ -9,21 +8,6 @@ interface MilestoneCardProps {
 }
 
 export const MilestoneCard: React.FC<MilestoneCardProps> = ({ milestone, onClose }) => {
-  useEffect(() => {
-    if (milestone) {
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#C41E3A', '#E7C27A', '#F5F0E6'],
-        });
-      } catch {
-        // fallback if canvas not available
-      }
-    }
-  }, [milestone]);
-
   if (!milestone) return null;
 
   const handleShare = async (): Promise<void> => {
@@ -54,7 +38,7 @@ export const MilestoneCard: React.FC<MilestoneCardProps> = ({ milestone, onClose
 
         {/* Milestone Icon */}
         <div className="w-16 h-16 rounded-2xl bg-[#E7C27A]/15 border border-[#E7C27A]/30 flex items-center justify-center mx-auto mb-4 text-[#E7C27A]">
-          <Award className="w-8 h-8 stroke-[2]" />
+          <Award className="w-8 h-8" />
         </div>
 
         <span className="text-[11px] uppercase font-bold tracking-widest text-[#E7C27A] block mb-1">
@@ -73,7 +57,7 @@ export const MilestoneCard: React.FC<MilestoneCardProps> = ({ milestone, onClose
           onClick={handleShare}
           className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-[#C41E3A] text-white text-xs font-bold shadow hover:bg-[#b01a33] active:scale-[0.98] transition-transform"
         >
-          <Share2 className="w-4 h-4 stroke-[2.5]" />
+          <Share2 className="w-4 h-4" />
           <span>Share Milestone</span>
         </button>
       </div>

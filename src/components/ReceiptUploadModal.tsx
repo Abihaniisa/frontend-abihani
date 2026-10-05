@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { X, Upload, Check, Image as ImageIcon } from 'lucide-react';
+import { X, Check, Image as ImageIcon } from './icons';
 import { useOrderStore } from '../store/order.store';
 import { useAuthStore } from '../store/auth.store';
 import { useUIStore } from '../store/ui.store';

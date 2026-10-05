@@ -12,7 +12,7 @@ import {
   ShieldAlert,
   ChevronRight,
   Sparkles,
-} from 'lucide-react';
+} from '../components/icons';
 import { useAuthStore } from '../store/auth.store';
 import { useUIStore } from '../store/ui.store';
 import { NigerianBanks } from '../constants/banks';

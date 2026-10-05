@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Mail, Globe, Shield } from 'lucide-react';
+import { X, Mail, Globe, Shield } from './icons';
 import { AppConfig } from '../config/app.config';
 
 interface AboutSheetProps {

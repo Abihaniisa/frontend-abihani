@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Heart } from 'lucide-react';
+import { Heart } from './icons';
 import { Post } from '../types/post.types';
 import { RightRail } from './RightRail';
 import { InfoCard } from './InfoCard';

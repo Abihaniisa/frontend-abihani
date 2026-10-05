@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package, ChevronRight, ShieldCheck } from 'lucide-react';
+import { Package, ChevronRight, ShieldCheck } from '../components/icons';
 import { useOrderStore } from '../store/order.store';
 import { useAuthStore } from '../store/auth.store';
 import { useUIStore } from '../store/ui.store';

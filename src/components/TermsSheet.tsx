@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ShieldAlert } from 'lucide-react';
+import { X, ShieldAlert } from './icons';
 
 interface TermsSheetProps {
   isOpen: boolean;

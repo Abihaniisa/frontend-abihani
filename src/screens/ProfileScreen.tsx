@@ -10,7 +10,7 @@ import {
   Camera,
   MapPin,
   ShieldAlert,
-} from 'lucide-react';
+} from '../components/icons';
 import { UserProfile } from '../types/user.types';
 import { useAuthStore } from '../store/auth.store';
 import { useFeedStore } from '../store/feed.store';

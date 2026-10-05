@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Mail, ShieldCheck, Key, Check } from 'lucide-react';
+import { ArrowLeft, Key, Check } from '../components/icons';
 import { useAuthStore } from '../store/auth.store';
 import { useUIStore } from '../store/ui.store';
 import { AuthService } from '../services';

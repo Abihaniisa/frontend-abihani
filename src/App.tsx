@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Splash } from './components/Splash';
 import { BottomNav } from './components/BottomNav';
-import { FeedScreen } from './screens/FeedScreen';
-import { DiscoverScreen } from './screens/DiscoverScreen';
-import { CreateScreen } from './screens/CreateScreen';
-import { OrdersScreen } from './screens/OrdersScreen';
-import { OrderThreadScreen } from './screens/OrderThreadScreen';
-import { ProfileScreen } from './screens/ProfileScreen';
-import { SettingsScreen } from './screens/SettingsScreen';
-import { AdminScreen } from './screens/AdminScreen';
-import { AuthScreen } from './screens/AuthScreen';
+import { AppRoutes } from './router';
 import { TermsSheet } from './components/TermsSheet';
 import { PrivacySheet } from './components/PrivacySheet';
 import { AboutSheet } from './components/AboutSheet';
 import { MilestoneCard } from './components/MilestoneCard';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 import { useUIStore } from './store/ui.store';
-import { useAuthStore } from './store/auth.store';
 
 export default function App(): React.ReactElement {
   const [splashFinished, setSplashFinished] = useState(false);
+  const location = useLocation();
   const {
-    currentScreen,
-    viewingSeller,
     showTermsSheet,
     setTermsSheet,
     showPrivacySheet,
@@ -35,9 +26,7 @@ export default function App(): React.ReactElement {
     navigateBack,
   } = useUIStore();
 
-  const { isAuthenticated } = useAuthStore();
-
-  // Edge-swipe or hardware back button listener
+  // Edge-swipe or hardware back listener
   useEffect(() => {
     const handlePopState = (e: PopStateEvent): void => {
       e.preventDefault();
@@ -48,12 +37,13 @@ export default function App(): React.ReactElement {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [navigateBack]);
 
-  // Show primary bottom nav only on main destinations
+  // Show bottom nav on main tabs
+  const path = location.pathname;
   const showBottomNav =
-    currentScreen === 'home' ||
-    currentScreen === 'discover' ||
-    currentScreen === 'orders' ||
-    currentScreen === 'you';
+    path === '/' ||
+    path === '/discover' ||
+    path === '/orders' ||
+    path === '/profile';
 
   return (
     <div className="relative w-full min-h-[100dvh] bg-[#0B0B0F] text-[#F5F0E6] flex flex-col justify-between overflow-x-hidden font-sans">
@@ -67,29 +57,7 @@ export default function App(): React.ReactElement {
 
       {/* 3. Screen Router */}
       <div className="flex-1 w-full">
-        {!isAuthenticated ? (
-          <AuthScreen />
-        ) : currentScreen === 'home' ? (
-          <FeedScreen />
-        ) : currentScreen === 'discover' ? (
-          <DiscoverScreen />
-        ) : currentScreen === 'create' ? (
-          <CreateScreen />
-        ) : currentScreen === 'orders' ? (
-          <OrdersScreen />
-        ) : currentScreen === 'thread' ? (
-          <OrderThreadScreen />
-        ) : currentScreen === 'you' ? (
-          <ProfileScreen />
-        ) : currentScreen === 'seller_profile' ? (
-          <ProfileScreen sellerOverride={viewingSeller} />
-        ) : currentScreen === 'settings' ? (
-          <SettingsScreen />
-        ) : currentScreen === 'admin' ? (
-          <AdminScreen />
-        ) : (
-          <FeedScreen />
-        )}
+        <AppRoutes />
       </div>
 
       {/* 4. Bottom Nav Capsule */}

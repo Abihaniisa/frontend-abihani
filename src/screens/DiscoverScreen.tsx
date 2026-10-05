@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, X, TrendingUp, Sparkles, MapPin } from 'lucide-react';
+import { Search, X, TrendingUp, Sparkles, MapPin } from '../components/icons';
 import { useFeedStore } from '../store/feed.store';
 import { useUIStore } from '../store/ui.store';
 import { formatPrice } from '../utils/formatPrice';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, Plus } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, Plus } from './icons';
 import { Post } from '../types/post.types';
 import { useFeedStore } from '../store/feed.store';
 import { useUIStore } from '../store/ui.store';

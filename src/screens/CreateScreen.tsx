@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Image as ImageIcon, Video, X, AlertCircle } from 'lucide-react';
+import { Camera, Image as ImageIcon, Video, X, AlertCircle } from '../components/icons';
 import { PostMedia } from '../types/post.types';
 import { useAuthStore } from '../store/auth.store';
 import { useFeedStore } from '../store/feed.store';

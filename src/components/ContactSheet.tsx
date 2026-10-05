@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Phone, MessageCircle, Copy, Shield } from 'lucide-react';
+import { X, Phone, MessageCircle, Copy, Shield } from './icons';
 import { normalizePhone } from '../utils/normalizePhone';
 import { useUIStore } from '../store/ui.store';
 import { useOrderStore } from '../store/order.store';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
+import { ShoppingBag, ChevronDown, ChevronUp, MapPin } from './icons';
 import { Post } from '../types/post.types';
 import { formatPrice } from '../utils/formatPrice';
 import { useUIStore } from '../store/ui.store';

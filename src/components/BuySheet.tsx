@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Copy, Check, MessageSquare, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { X, Copy, Check, MessageSquare, AlertTriangle, ShieldCheck } from './icons';
 import { Post } from '../types/post.types';
 import { formatPrice } from '../utils/formatPrice';
 import { useAuthStore } from '../store/auth.store';

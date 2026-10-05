@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Megaphone, ArrowRight, X } from 'lucide-react';
+import { Megaphone, ArrowRight, X } from './icons';
 import { OfficialNotice } from '../types/post.types';
 import { useUIStore } from '../store/ui.store';
 

@@ -9,7 +9,7 @@ import {
   CheckCircle,
   ToggleLeft,
   ToggleRight,
-} from 'lucide-react';
+} from '../components/icons';
 import { useAdminStore } from '../store/admin.store';
 import { useUIStore } from '../store/ui.store';
 import { useOrderStore } from '../store/order.store';

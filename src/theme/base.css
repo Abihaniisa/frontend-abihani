@@ -1,0 +1,24 @@
+body {
+  background-color: var(--color-bg);
+  color: var(--color-bone);
+  font-family: var(--font-family-system);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  margin: 0;
+  padding: 0;
+  line-height: var(--leading-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: var(--tracking-tight-heading);
+  line-height: var(--leading-headline);
+  font-weight: 700;
+  margin: 0;
+}
+
+input, textarea, select, button {
+  font-family: inherit;
+}
