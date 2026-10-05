@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import { X, Lock } from './icons';
 
 interface PrivacySheetProps {
