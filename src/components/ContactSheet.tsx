@@ -19,7 +19,6 @@ export const ContactSheet: React.FC<ContactSheetProps> = ({ orderId, onClose }) 
   const order = orders.find((o) => o.id === orderId);
   if (!order) return null;
 
-  // Determine other party's contact details
   const isBuyer = currentUser.id === order.buyerId;
   const otherParty = isBuyer ? order.seller : order.buyer;
   const rawPhone = isBuyer
@@ -66,11 +65,10 @@ export const ContactSheet: React.FC<ContactSheetProps> = ({ orderId, onClose }) 
           </button>
         </div>
 
-        {/* Protection Notice locked by prompt */}
         <div className="my-4 p-3 rounded-xl bg-neutral-900 border border-neutral-800 flex items-start gap-2.5">
           <Shield className="w-4 h-4 text-[#E7C27A] shrink-0 mt-0.5" />
           <p className="text-xs text-[#B8B2A6] leading-relaxed">
-            Contact is only available during an active order. This protects both parties.
+            Contact is only available during an active order.
           </p>
         </div>
 
@@ -81,7 +79,6 @@ export const ContactSheet: React.FC<ContactSheetProps> = ({ orderId, onClose }) 
           </span>
         </div>
 
-        {/* Action List */}
         <div className="space-y-2">
           <button
             onClick={handleCall}
