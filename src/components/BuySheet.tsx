@@ -47,7 +47,7 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
         contactPhone: contactPhone.trim() || '+2348000000000',
       });
 
-      addToast('Order created. Status: Paid (Unconfirmed)', 'success');
+      addToast('Order created', 'success');
       onClose();
       navigate('thread');
       useOrderStore.getState().selectOrder(order.id);
@@ -68,7 +68,6 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
       <div className="flex-1 w-full" onClick={onClose} />
 
       <div className="relative w-full max-w-lg mx-auto bg-[#0B0B0F] border-t border-neutral-800 rounded-t-3xl flex flex-col max-h-[85vh] shadow-2xl overflow-hidden pb-safe">
-        {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
           <div>
             <span className="text-xs uppercase font-bold text-[#E7C27A] tracking-wider block">
@@ -82,23 +81,20 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
           <button
             onClick={onClose}
             className="p-1.5 rounded-full text-[#B8B2A6] hover:text-white hover:bg-neutral-800"
-            aria-label="Cancel checkout"
+            aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Body */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 no-scrollbar">
-          {/* Honest Disclaimer Box as locked by prompt */}
           <div className="p-3.5 rounded-xl bg-neutral-900 border border-neutral-800 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-[#E7C27A] shrink-0 mt-0.5" />
             <p className="text-xs text-[#B8B2A6] leading-relaxed">
-              Pay the seller directly. Abihani does not hold your money yet. Pay only after you trust this seller.
+              Pay the seller directly. Abihani does not hold your money yet.
             </p>
           </div>
 
-          {/* Amount Due Card */}
           <div className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800 flex items-center justify-between">
             <span className="text-xs font-semibold text-[#B8B2A6]">Amount to transfer</span>
             <span className="text-xl font-extrabold text-[#E7C27A] tabular-nums">
@@ -106,7 +102,6 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
             </span>
           </div>
 
-          {/* Seller Bank Details */}
           <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 space-y-3">
             <div className="flex items-center justify-between border-b border-neutral-800 pb-2">
               <span className="text-xs font-medium text-[#B8B2A6]">Bank Name</span>
@@ -145,7 +140,6 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
             </div>
           </div>
 
-          {/* Contact Phone & Note Inputs */}
           <div className="space-y-3">
             <div>
               <label className="block text-xs font-semibold text-[#F5F0E6] mb-1">
@@ -153,6 +147,7 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
               </label>
               <input
                 type="tel"
+                inputMode="numeric"
                 value={contactPhone}
                 onChange={(e) => setContactPhone(e.target.value)}
                 placeholder="08012345678"
@@ -181,7 +176,6 @@ export const BuySheet: React.FC<BuySheetProps> = ({ post, onClose }) => {
           </div>
         </div>
 
-        {/* Action Buttons: "I have paid" & "Ask about this first" */}
         <div className="p-4 border-t border-neutral-800 bg-[#0B0B0F] space-y-2">
           <button
             onClick={handlePaidSubmit}
