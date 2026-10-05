@@ -25,6 +25,7 @@ Abihani is a social marketplace for Nigeria. The feed is entertainment first, co
 - **Legal Footer**: "Abihani. Damaturu, Yobe State, Nigeria." (used in three places only — About sheet, Terms sheet, Privacy sheet)
 
 ### Colors
+
 - **Background**: `#0B0B0F`
 - **Primary Text (Bone)**: `#F5F0E6`
 - **Secondary Text**: `#B8B2A6`
@@ -36,3 +37,25 @@ Abihani is a social marketplace for Nigeria. The feed is entertainment first, co
 ---
 
 ## File Dictionary & Architecture
+
+src/
+  config/         Values that could change (app, timing, limits, features)
+  labels/         All user-facing copy hardcoded (zero empty states, zero missing labels)
+  theme/          Design tokens and CSS constants
+  constants/      Banks, Nigerian states, seed data
+  engine/         Pure business logic (ranking engine, score calculations)
+  services/       Network layer (all mocks with switch VITE_USE_MOCK=true)
+  hooks/          Reusable React hooks (useAuth, usePWAInstall, useOrderTimer)
+  components/     Modular UI components (FeedItem, BottomNav, TopChrome, InfoCard, Skeletons)
+  screens/        Full screens (Feed, Discover, Create, Orders, Thread, Profile, Settings, Admin)
+  store/          Zustand stores (auth, feed, orders, settings, admin, ui)
+  types/          Strict TypeScript definitions (no any)
+  utils/          Helpers (formatPrice, normalizePhone, formatDate)
+
+---
+
+## Running Locally
+
+npm install
+npm run dev
+npm run lint
