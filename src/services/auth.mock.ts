@@ -12,45 +12,53 @@ class AuthMockService {
   private generatedOtp: string = '123456';
   private linkedAccounts: UserProfile[] = [INITIAL_CURRENT_USER];
 
-  public async requestEmailOtp(email: string): Promise<{ success: boolean; message: string }> {
-    // Generate 6 digit OTP
+  public async requestPhoneOtp(phone: string): Promise<{ success: boolean; message: string }> {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     this.generatedOtp = code;
 
-    // Output to browser console as mandated by specification
     console.log(
-      `%c[Abihani Auth Mock] ✉️ Email OTP for ${email}: %c${code}`,
+      `%c[Abihani Auth Mock] Phone OTP for ${phone}: %c${code}`,
       'background: #0B0B0F; color: #E7C27A; font-weight: bold; padding: 4px 8px; border-radius: 4px;',
       'background: #C41E3A; color: #FFFFFF; font-weight: 800; font-size: 16px; padding: 4px 8px; border-radius: 4px;'
     );
 
     return {
       success: true,
-      message: 'OTP sent to your email. Check your browser developer console.',
+      message: 'OTP sent. Check the browser console.',
     };
   }
 
-  public async verifyEmailOtp(email: string, code: string): Promise<AuthSession> {
-    // In mock mode, allow the generated code or 123456 or 000000
+  public async verifyPhoneOtp(phone: string, code: string): Promise<AuthSession> {
     if (code !== this.generatedOtp && code !== '123456' && code !== '000000') {
-      throw new Error('Invalid or expired verification code');
+      throw new Error('That code is not correct. Try again.');
     }
 
-    // 8-digit recovery code shown once
     const recoveryCode = Math.floor(10000000 + Math.random() * 90000000).toString();
 
-    const handle = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+    const existing = this.linkedAccounts.find((a) => a.contactPhone === phone);
+
+    if (existing) {
+      this.activeUser = existing;
+      return {
+        user: existing,
+        token: `mock_jwt_${Date.now()}`,
+        recoveryCode,
+      };
+    }
+
+    const digitsOnly = phone.replace(/\D/g, '');
+    const handle = `user${digitsOnly.slice(-4)}`;
+
     const user: UserProfile = {
       ...this.activeUser,
-      email,
-      handle: handle || 'user',
-      displayName: handle ? handle.charAt(0).toUpperCase() + handle.slice(1) : 'Abihani User',
+      id: `usr_${Date.now()}`,
+      contactPhone: phone,
+      handle,
+      displayName: 'Abihani User',
     };
 
     this.activeUser = user;
-    if (!this.linkedAccounts.some((a) => a.email === email)) {
-      this.linkedAccounts.push(user);
-    }
+    this.linkedAccounts.push(user);
 
     return {
       user,
