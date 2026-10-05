@@ -1,35 +1,44 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Key, Check } from '../components/icons';
+import { ArrowLeft, Key, Check, AlertCircle } from '../components/icons';
 import { useAuthStore } from '../store/auth.store';
 import { useUIStore } from '../store/ui.store';
 import { AuthService } from '../services';
+import { normalizePhone } from '../utils/normalizePhone';
 
 export const AuthScreen: React.FC = () => {
-  const [step, setStep] = useState<'email' | 'otp' | 'recovery'>('email');
-  const [email, setEmail] = useState('');
+  const [step, setStep] = useState<'phone' | 'otp' | 'recovery'>('phone');
+  const [phoneInput, setPhoneInput] = useState('');
   const [otpCode, setOtpCode] = useState('');
   const [generatedRecovery, setGeneratedRecovery] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const { loginWithOtp } = useAuthStore();
+  const { loginWithPhone } = useAuthStore();
   const { navigate, addToast, setTermsSheet, setPrivacySheet } = useUIStore();
 
-  const handleEmailSubmit = async (e: React.FormEvent): Promise<void> => {
+  const normalizedPhone = normalizePhone(phoneInput);
+  const isValidPhone = /^\+234\d{10}$/.test(normalizedPhone);
+
+  const handlePhoneSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    if (!email.trim() || !email.includes('@')) {
-      setErrorMsg('Please enter a valid email address');
+    if (!isValidPhone) {
+      setErrorMsg('Enter a valid Nigerian phone number');
       return;
     }
     setErrorMsg('');
     setLoading(true);
 
+    const startedAt = Date.now();
     try {
-      await AuthService.requestEmailOtp(email.trim());
-      addToast('OTP sent! Check your browser console', 'success');
+      await AuthService.requestPhoneOtp(normalizedPhone);
+      const elapsed = Date.now() - startedAt;
+      const minWait = 1000;
+      if (elapsed < minWait) {
+        await new Promise((r) => setTimeout(r, minWait - elapsed));
+      }
       setStep('otp');
     } catch {
-      setErrorMsg('Could not send verification code');
+      setErrorMsg('Could not send the code. Try again.');
     } finally {
       setLoading(false);
     }
@@ -44,36 +53,48 @@ export const AuthScreen: React.FC = () => {
     setErrorMsg('');
     setLoading(true);
 
+    const startedAt = Date.now();
     try {
-      const session = await AuthService.verifyEmailOtp(email.trim(), otpCode.trim());
-      await loginWithOtp(email.trim(), otpCode.trim());
+      const session = await AuthService.verifyPhoneOtp(normalizedPhone, otpCode.trim());
+      await loginWithPhone(normalizedPhone, otpCode.trim());
+      const elapsed = Date.now() - startedAt;
+      const minWait = 1000;
+      if (elapsed < minWait) {
+        await new Promise((r) => setTimeout(r, minWait - elapsed));
+      }
       setGeneratedRecovery(session.recoveryCode);
       setStep('recovery');
     } catch (err: unknown) {
-      setErrorMsg(err instanceof Error ? err.message : 'Invalid verification code');
+      setErrorMsg(err instanceof Error ? err.message : 'That code is not correct. Try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleRecoveryConfirm = (): void => {
-    addToast('Account ready. Welcome to Abihani!', 'success');
+    addToast('Welcome to Abihani', 'success');
     navigate('home');
+  };
+
+  const handleChangeNumber = (): void => {
+    setOtpCode('');
+    setErrorMsg('');
+    setStep('phone');
   };
 
   return (
     <div className="w-full min-h-[100dvh] bg-[#0B0B0F] text-[#F5F0E6] flex flex-col justify-between p-6 select-none pt-safe pb-safe">
-      {/* Top Header */}
       <div className="flex items-center justify-between">
-        {step !== 'email' ? (
+        {step === 'phone' ? (
+          <div />
+        ) : (
           <button
-            onClick={() => setStep('email')}
+            onClick={handleChangeNumber}
             className="p-1 rounded text-neutral-400 hover:text-white"
+            aria-label="Back"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-        ) : (
-          <div />
         )}
 
         <div className="flex items-center gap-1.5">
@@ -86,21 +107,18 @@ export const AuthScreen: React.FC = () => {
         <div className="w-5" />
       </div>
 
-      {/* Main Flow Content */}
       <div className="w-full max-w-sm mx-auto my-auto space-y-6">
-        {/* Step 1: Email & Country */}
-        {step === 'email' && (
-          <form onSubmit={handleEmailSubmit} className="space-y-4">
+        {step === 'phone' && (
+          <form onSubmit={handlePhoneSubmit} className="space-y-4">
             <div className="text-center mb-6">
               <h1 className="text-xl font-extrabold text-[#F5F0E6]">
                 Welcome to Abihani
               </h1>
               <p className="text-xs text-[#B8B2A6] mt-1">
-                The social marketplace. Discover. Like. Buy.
+                Discover. Like. Buy.
               </p>
             </div>
 
-            {/* Country Picker: Nigeria Only */}
             <div>
               <label className="block text-xs font-semibold text-[#B8B2A6] mb-1">
                 Country
@@ -111,33 +129,33 @@ export const AuthScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Email Input */}
             <div>
               <label className="block text-xs font-semibold text-[#F5F0E6] mb-1">
-                Email
+                Phone number
               </label>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                type="tel"
+                inputMode="numeric"
+                value={phoneInput}
+                onChange={(e) => setPhoneInput(e.target.value)}
+                placeholder="080675551684"
                 required
                 autoComplete="off"
                 data-lpignore="true"
                 data-form-type="other"
-                className="w-full h-12 px-4 rounded-xl bg-neutral-900 border border-neutral-800 text-xs text-[#F5F0E6] placeholder-neutral-500 focus:outline-none focus:border-[#C41E3A]"
+                className="w-full h-12 px-4 rounded-xl bg-neutral-900 border border-neutral-800 text-sm text-[#F5F0E6] placeholder-neutral-500 focus:outline-none focus:border-[#C41E3A]"
               />
             </div>
 
             {errorMsg && (
-              <p className="text-xs text-[#FF3B3B] font-medium">{errorMsg}</p>
+              <p className="text-xs text-[#FF3B3B] font-medium flex items-center gap-1">
+                <AlertCircle className="w-3.5 h-3.5" />
+                {errorMsg}
+              </p>
             )}
 
-            {/* Age Gate and Terms Consent locked by prompt Part 3 & Part 21 */}
             <div className="text-[11px] text-[#B8B2A6] leading-relaxed pt-2 space-y-1">
-              <p>
-                By continuing, you confirm you are 18 or older.
-              </p>
+              <p>By continuing, you confirm you are 18 or older.</p>
               <p>
                 By continuing, you agree to our{' '}
                 <button
@@ -161,24 +179,27 @@ export const AuthScreen: React.FC = () => {
 
             <button
               type="submit"
-              disabled={loading || !email}
-              className="w-full h-12 rounded-xl bg-[#C41E3A] text-white font-bold text-xs tracking-wide shadow-lg hover:bg-[#b01a33] active:scale-[0.98] disabled:opacity-40 transition-transform"
+              disabled={loading || !phoneInput}
+              className="w-full h-12 rounded-xl bg-[#C41E3A] text-white font-bold text-xs tracking-wide shadow-lg hover:bg-[#b01a33] active:scale-[0.98] disabled:opacity-40 transition-transform flex items-center justify-center"
             >
-              {loading ? 'Sending code...' : 'Continue'}
+              {loading ? (
+                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                'Continue'
+              )}
             </button>
           </form>
         )}
 
-        {/* Step 2: OTP Verification */}
         {step === 'otp' && (
           <form onSubmit={handleOtpSubmit} className="space-y-4 text-center">
             <div>
-              <h2 className="text-xl font-extrabold text-[#F5F0E6]">Check your email</h2>
+              <h2 className="text-xl font-extrabold text-[#F5F0E6]">Enter the code</h2>
               <p className="text-xs text-[#B8B2A6] mt-1">
-                Enter the 6-digit verification code sent to <strong className="text-white">{email}</strong>
+                We sent a 6-digit code to <strong className="text-white">{normalizedPhone}</strong>
               </p>
               <span className="text-[10px] text-[#E7C27A] block mt-1">
-                (Mock code printed in browser developer console)
+                Mock code printed in the browser console
               </span>
             </div>
 
@@ -197,14 +218,25 @@ export const AuthScreen: React.FC = () => {
             <button
               type="submit"
               disabled={loading || otpCode.length < 6}
-              className="w-full h-12 rounded-xl bg-[#C41E3A] text-white font-bold text-xs shadow-lg hover:bg-[#b01a33] active:scale-[0.98] disabled:opacity-40"
+              className="w-full h-12 rounded-xl bg-[#C41E3A] text-white font-bold text-xs shadow-lg hover:bg-[#b01a33] active:scale-[0.98] disabled:opacity-40 flex items-center justify-center"
             >
-              {loading ? 'Verifying...' : 'Verify & Log in'}
+              {loading ? (
+                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                'Verify'
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleChangeNumber}
+              className="text-[11px] text-[#B8B2A6] font-medium underline"
+            >
+              Change number
             </button>
           </form>
         )}
 
-        {/* Step 3: Recovery Code Shown Once */}
         {step === 'recovery' && (
           <div className="space-y-5 text-center">
             <div className="w-12 h-12 rounded-2xl bg-[#E7C27A]/15 text-[#E7C27A] flex items-center justify-center mx-auto mb-2">
@@ -212,9 +244,9 @@ export const AuthScreen: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-lg font-extrabold text-[#F5F0E6]">Your Recovery Code</h2>
+              <h2 className="text-lg font-extrabold text-[#F5F0E6]">Save your code</h2>
               <p className="text-xs text-[#B8B2A6] mt-1 leading-relaxed">
-                Save this 8-digit code. It is shown once and is your last door into this account.
+                Write this down. It is your last door if you lose access.
               </p>
             </div>
 
@@ -227,16 +259,15 @@ export const AuthScreen: React.FC = () => {
               className="flex items-center justify-center gap-2 w-full h-12 rounded-xl bg-[#C41E3A] text-white font-bold text-xs shadow-lg hover:bg-[#b01a33] active:scale-[0.98]"
             >
               <Check className="w-4 h-4 stroke-[3]" />
-              <span>I saved my recovery code</span>
+              <span>I wrote it down</span>
             </button>
           </div>
         )}
       </div>
 
-      {/* Footer Legal Entity */}
       <div className="text-center pt-6">
         <span className="text-[10px] text-neutral-500 block">
-          Abihani is a product of Abihani Express, registered in Nigeria.
+          Abihani. Damaturu, Yobe State, Nigeria.
         </span>
       </div>
     </div>
