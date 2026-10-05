@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="112" fill="#0B0B0F"/>
+  <!-- Angular AH Crimson Parent Mark -->
+  <g fill="#C41E3A">
+    <!-- A left diagonal arm -->
+    <path d="M120 400 L210 112 L260 112 L170 400 Z" />
+    <!-- A right diagonal arm & H connection -->
+    <path d="M245 112 L295 112 L385 400 L335 400 L300 286 L205 286 L187 342 L137 342 L245 112 Z" fill-rule="evenodd" />
+    <!-- H right vertical bar with razor angular cut -->
+    <path d="M342 112 L392 112 L392 400 L342 400 Z" />
+    <!-- Cross bar uniting AH -->
+    <path d="M216 250 L342 250 L342 286 L205 286 Z" />
+  </g>
+  <!-- Accent precision gold notch -->
+  <circle cx="392" cy="120" r="14" fill="#E7C27A" />
+</svg>

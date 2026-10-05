@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Abihani — The social marketplace</title>
+    <meta name="description" content="Discover. Like. Buy. Inside one feed." />
+    <link rel="canonical" href="https://abihaniexpress.com.ng/" />
+    <meta name="theme-color" content="#0B0B0F" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Abihani" />
+
+    <!-- OpenGraph Metadata -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Abihani" />
+    <meta property="og:title" content="Abihani — The social marketplace" />
+    <meta property="og:description" content="Discover. Like. Buy. Inside one feed." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Abihani — The social marketplace" />
+    <meta name="twitter:description" content="Discover. Like. Buy. Inside one feed." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Icons & Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://abihaniexpress.com.ng/#organization",
+          "name": "Abihani",
+          "url": "https://abihaniexpress.com.ng/",
+          "logo": "https://abihaniexpress.com.ng/icon.svg",
+          "email": "abihaniexpress@gmail.com"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://abihaniexpress.com.ng/#website",
+          "url": "https://abihaniexpress.com.ng/",
+          "name": "Abihani",
+          "description": "The social marketplace for Nigeria. Discover. Like. Buy. Inside one feed.",
+          "publisher": {
+            "@id": "https://abihaniexpress.com.ng/#organization"
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body class="bg-[#0B0B0F] text-[#F5F0E6] antialiased select-none overflow-x-hidden">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

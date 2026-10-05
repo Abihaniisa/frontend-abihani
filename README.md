@@ -1,11 +1,70 @@
-<div align="center">
+# ABIHANI — The Social Marketplace
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Abihani is a social marketplace for Nigeria. The feed is entertainment first, commerce second. Never let commerce feel bolted on.
 
-  <h1>Built with AI Studio</h2>
+- One account for everyone. No buyer mode. No seller mode.
+- Anyone can post. Anyone can buy. Anyone can sell.
+- The Feed is the center. Full-screen vertical scroll-snap. One post per viewport.
+- Posts without a price are social posts. Posts with a price are shoppable.
+- Hashtags do all classification. No global categories.
+- Comments are the reviews. One thread per post.
+- No wallet. No cart. No general DM.
+- Conversations live inside order threads and pre-order negotiations only.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+---
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Brand & Visual Identity
 
-</div>
+- **Name**: Abihani
+- **Tagline**: The social marketplace
+- **Market**: Nigeria only at launch
+- **Currency**: Nigerian Naira (`₦`), formatted as `₦38,500` (commas, no decimals)
+- **Public Contact Email**: `abihaniexpress@gmail.com`
+- **The "Express" Rule**: The word "Express" NEVER appears in user-facing UI, headings, titles, meta tags, or notices. It appears ONLY in 3 legal footers:
+  1. About sheet footer ("Abihani is a product of Abihani Express, registered in Nigeria.")
+  2. Terms sheet footer
+  3. Privacy Policy sheet footer
+
+### Colors
+- **Background**: `#0B0B0F`
+- **Primary Text (Bone)**: `#F5F0E6`
+- **Secondary Text**: `#B8B2A6`
+- **Crimson**: `#C41E3A` (Reserved for the single most important action on each screen)
+- **Gold**: `#E7C27A` (Reserved for prices and verified signals)
+- **Success**: `#4ADE80`
+- **Danger**: `#FF3B3B`
+
+---
+
+## File Dictionary & Architecture
+
+```
+src/
+  config/         Values that could change (app, timing, limits, features)
+  labels/         All user-facing copy hardcoded (zero empty states, zero missing labels)
+  theme/          Design tokens and CSS constants
+  constants/      Banks, Nigerian states, seed data
+  engine/         Pure business logic (ranking engine, score calculations)
+  services/       Network layer (all mocks with switch VITE_USE_MOCK=true)
+  hooks/          Reusable React hooks (useAuth, usePWAInstall, useOrderTimer)
+  components/     Modular UI components (FeedItem, BottomNav, TopChrome, InfoCard, Skeletons)
+  screens/        Full screens (Feed, Discover, Create, Orders, Thread, Profile, Settings, Admin)
+  store/          Zustand stores (auth, feed, orders, settings, admin, ui)
+  types/          Strict TypeScript definitions (no any)
+  utils/          Helpers (formatPrice, normalizePhone, formatDate)
+```
+
+---
+
+## Running Locally
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run local development server
+npm run dev
+
+# 3. Test compilation / typecheck
+npm run lint
+```
