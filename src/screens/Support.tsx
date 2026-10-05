@@ -8,7 +8,6 @@ export const Support: React.FC = () => {
 
   return (
     <div className="w-full min-h-[100dvh] bg-[#0B0B0F] text-[#F5F0E6] pb-28 pt-safe select-none">
-      {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-neutral-800">
         <button
           onClick={navigateBack}
@@ -21,14 +20,13 @@ export const Support: React.FC = () => {
       </div>
 
       <div className="p-4 space-y-5 max-w-lg mx-auto text-xs">
-        {/* Contact direct */}
         <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 space-y-2">
           <div className="flex items-center gap-2 text-[#E7C27A] font-bold">
             <Mail className="w-4 h-4" />
-            <span>Support Inquiries</span>
+            <span>Contact Us</span>
           </div>
           <p className="text-[#B8B2A6] leading-relaxed">
-            For dispute reviews, bank payout inquiries, or seller integrity reports:
+            For dispute reviews, payout questions, or account issues:
           </p>
           <a
             href={`mailto:${AppConfig.publicContactEmail}`}
@@ -38,18 +36,16 @@ export const Support: React.FC = () => {
           </a>
         </div>
 
-        {/* Dispute Policy Guide */}
         <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 space-y-2">
           <div className="flex items-center gap-2 text-[#C41E3A] font-bold">
             <Shield className="w-4 h-4" />
-            <span>Dispute & Settlement Policy</span>
+            <span>Payments & Reports</span>
           </div>
           <p className="text-[#B8B2A6] leading-relaxed">
-            In manual launch mode, payments are made directly between buyer and seller bank accounts. Always ensure you verify receipts and tracking information. Sellers found culpable of fraud or non-delivery are permanently banned.
+            Payments are direct between buyer and seller. Always verify bank details before you send. If something goes wrong, open a report from the order thread. Every report is reviewed. Verified cases lead to a permanent ban.
           </p>
         </div>
 
-        {/* Legal Documents */}
         <div className="rounded-2xl bg-neutral-900 border border-neutral-800 divide-y divide-neutral-800">
           <button
             onClick={() => setTermsSheet(true)}
