@@ -3,37 +3,28 @@ import { Search } from './icons';
 import { useFeedStore } from '../store/feed.store';
 import { useUIStore } from '../store/ui.store';
 
-interface TopChromeProps {
-  onScrollToTop?: () => void;
-}
-
-export const TopChrome: React.FC<TopChromeProps> = ({ onScrollToTop }) => {
+export const TopChrome: React.FC = () => {
   const { activeTab, setActiveTab } = useFeedStore();
-  const { navigate, currentScreen } = useUIStore();
+  const { navigate, setAboutSheet } = useUIStore();
 
   const handleWordmarkClick = (): void => {
-    if (currentScreen === 'home' && onScrollToTop) {
-      onScrollToTop();
-    } else {
-      navigate('home');
-    }
+    setAboutSheet(true);
   };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-4 pt-safe h-14 bg-gradient-to-b from-[#0B0B0F]/90 via-[#0B0B0F]/40 to-transparent pointer-events-none">
-      {/* Left: Wordmark only with blinking crimson dot */}
-      <div
+      {/* Left: Wordmark + blinking dot — whole group is the clickable button */}
+      <button
+        type="button"
         onClick={handleWordmarkClick}
-        className="pointer-events-auto flex items-center gap-1.5 cursor-pointer active:opacity-80 transition-opacity"
-        role="button"
-        tabIndex={0}
-        aria-label="Abihani home"
+        className="pointer-events-auto flex items-center gap-1.5 cursor-pointer active:opacity-80 transition-opacity bg-transparent border-0 p-0"
+        aria-label="About Abihani"
       >
         <span className="text-[19px] font-[800] tracking-[-0.6px] text-[#F5F0E6] select-none">
           Abihani
         </span>
         <span className="w-[6px] h-[6px] rounded-full bg-[#C41E3A] animate-blink-dot" />
-      </div>
+      </button>
 
       {/* Center: Tabs */}
       <nav className="pointer-events-auto flex items-center gap-5 text-sm font-semibold tracking-tight">
