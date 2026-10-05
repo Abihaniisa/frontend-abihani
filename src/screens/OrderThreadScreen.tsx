@@ -251,4 +251,147 @@ export const OrderThreadScreen: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => {
-                cancelOrder
+                cancelOrder(order.id, currentUser, 'payment_not_received');
+                setShowCancelPrompt(false);
+              }}
+              className="flex-1 py-2 px-3 rounded-lg bg-neutral-800 text-xs text-[#F5F0E6] font-medium hover:bg-neutral-700"
+            >
+              Payment not received
+            </button>
+            <button
+              onClick={() => {
+                cancelOrder(order.id, currentUser, 'other');
+                setShowCancelPrompt(false);
+              }}
+              className="flex-1 py-2 px-3 rounded-lg bg-neutral-800 text-xs text-[#F5F0E6] font-medium hover:bg-neutral-700"
+            >
+              Other reason
+            </button>
+            <button
+              onClick={() => setShowCancelPrompt(false)}
+              className="py-2 px-3 rounded-lg bg-neutral-900 text-xs text-[#B8B2A6]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showDisputeInput && (
+        <div className="p-4 bg-neutral-900 border-b border-[#FF3B3B]/40 space-y-2.5">
+          <div className="flex items-start gap-2">
+            <ShieldAlert className="w-4 h-4 text-[#FF3B3B] shrink-0 mt-0.5" />
+            <p className="text-xs text-[#B8B2A6]">
+              Tell us what happened. We review every report and act on every verified case.
+            </p>
+          </div>
+          <input
+            type="text"
+            value={disputeReason}
+            onChange={(e) => setDisputeReason(e.target.value)}
+            placeholder="Describe the issue..."
+            className="w-full h-10 px-3 rounded-xl bg-neutral-950 border border-neutral-800 text-xs text-[#F5F0E6] focus:outline-none focus:border-[#FF3B3B]"
+          />
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setShowDisputeInput(false)}
+              className="px-3 py-1.5 rounded-lg text-xs text-[#B8B2A6]"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDisputeSubmit}
+              disabled={!disputeReason.trim()}
+              className="px-3 py-1.5 rounded-lg bg-[#FF3B3B] text-white text-xs font-bold disabled:opacity-40"
+            >
+              Submit report
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-3.5 no-scrollbar">
+        {order.messages.map((msg) => {
+          const isMe = msg.senderId === currentUser.id;
+          return (
+            <div
+              key={msg.id}
+              className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}
+            >
+              <div
+                className={`max-w-[80%] p-3 rounded-2xl text-xs leading-relaxed ${
+                  isMe
+                    ? 'bg-[#C41E3A] text-white rounded-br-xs'
+                    : 'bg-neutral-900 text-[#F5F0E6] border border-neutral-800 rounded-bl-xs'
+                }`}
+              >
+                {msg.attachmentUrl && (
+                  <div className="mb-2 relative rounded-xl overflow-hidden border border-black/30">
+                    <img
+                      src={msg.attachmentUrl}
+                      alt="Attachment"
+                      className="w-full max-h-48 object-cover"
+                    />
+                    {msg.isReceipt && (
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-[#E7C27A] text-[#0B0B0F] font-extrabold text-[10px] tracking-wider uppercase shadow">
+                        Receipt
+                      </span>
+                    )}
+                  </div>
+                )}
+                <p>{msg.text}</p>
+              </div>
+
+              <span className="text-[9px] text-neutral-500 mt-1 px-1">
+                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            </div>
+          );
+        })}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className="p-3 border-t border-neutral-800 bg-[#0B0B0F] pb-safe flex items-center gap-2 shrink-0">
+        <button
+          onClick={() => openReceiptUpload(order.id)}
+          className="p-2.5 rounded-xl bg-neutral-900 text-[#B8B2A6] hover:text-white active:scale-95"
+          title="Attach receipt"
+          aria-label="Attach receipt"
+        >
+          <Paperclip className="w-4 h-4" />
+        </button>
+
+        <input
+          type="text"
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder={`Message ${counterparty.displayName}...`}
+          autoComplete="off"
+          data-lpignore="true"
+          data-form-type="other"
+          className="flex-1 h-11 px-4 rounded-xl bg-neutral-900 border border-neutral-800 text-xs text-[#F5F0E6] placeholder-neutral-500 focus:outline-none focus:border-[#C41E3A]"
+        />
+
+        <button
+          onClick={handleSendMessage}
+          disabled={!messageText.trim()}
+          className="w-11 h-11 rounded-xl bg-[#C41E3A] text-white flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#b01a33] active:scale-95 transition-transform shrink-0"
+          aria-label="Send"
+        >
+          <Send className="w-4 h-4 stroke-[2.5]" />
+        </button>
+      </div>
+
+      <ContactSheet
+        orderId={activeContactOrder}
+        onClose={closeContactSheet}
+      />
+
+      <ReceiptUploadModal
+        orderId={activeReceiptUploadOrderId}
+        onClose={closeReceiptUpload}
+      />
+    </div>
+  );
+};
