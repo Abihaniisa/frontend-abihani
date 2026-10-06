@@ -1,20 +1,20 @@
 export const noticeLabels = {
   directPaymentDisclaimer:
-    'Pay the seller directly. Abihani does not hold your money yet. Pay only after you trust this seller.',
+    'Pay the seller directly. Abihani does not hold your money yet.',
   contactProtectedDisclaimer:
-    'Contact is only available during an active order. This protects both parties.',
+    'Contact is only available during an active order.',
   disputeDisclaimer:
-    'We cannot refund your money yet. But we can ban this seller if they are wrong. Tell us what happened.',
+    'Tell us what happened. We review every report and act on every verified case.',
   ageGateConfirmation:
     'By continuing, you confirm you are 18 or older.',
   termsAgreement:
     'By continuing, you agree to our Terms and Privacy Policy.',
   recoveryCodeNotice:
-    'Save this 8-digit code. It is shown once and is your last door into this account.',
+    'Write this down. It is your last door if you lose access.',
   noReceiptUploaded:
-    'No receipt uploaded.',
+    'No receipt uploaded yet.',
   legalEntityFooter:
-    'Abihani is a product of Abihani Express, registered in Nigeria.',
+    'Abihani. Damaturu, Yobe State, Nigeria.',
   officialNoticeBadge:
     'Official Notice',
   swipeToDismiss:

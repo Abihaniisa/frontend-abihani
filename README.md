@@ -1,6 +1,6 @@
 # ABIHANI — The Social Marketplace
 
-Abihani is a social marketplace for Nigeria. The feed is entertainment first, commerce second. Never let commerce feel bolted on.
+Abihani is a social marketplace for Nigeria. The feed is entertainment first, commerce second. Never let commerce feel bolted on. Payments are direct between buyer and seller. Escrow comes later.
 
 - One account for everyone. No buyer mode. No seller mode.
 - Anyone can post. Anyone can buy. Anyone can sell.
@@ -20,12 +20,12 @@ Abihani is a social marketplace for Nigeria. The feed is entertainment first, co
 - **Market**: Nigeria only at launch
 - **Currency**: Nigerian Naira (`₦`), formatted as `₦38,500` (commas, no decimals)
 - **Public Contact Email**: `abihaniexpress@gmail.com`
-- **The "Express" Rule**: The word "Express" NEVER appears in user-facing UI, headings, titles, meta tags, or notices. It appears ONLY in 3 legal footers:
-  1. About sheet footer ("Abihani is a product of Abihani Express, registered in Nigeria.")
-  2. Terms sheet footer
-  3. Privacy Policy sheet footer
+- **Founder**: Abihani Isa
+- **Founder Location**: Damaturu, Yobe State, Nigeria
+- **Legal Footer**: "Abihani. Damaturu, Yobe State, Nigeria." (used in three places only — About sheet, Terms sheet, Privacy sheet)
 
 ### Colors
+
 - **Background**: `#0B0B0F`
 - **Primary Text (Bone)**: `#F5F0E6`
 - **Secondary Text**: `#B8B2A6`
@@ -38,7 +38,6 @@ Abihani is a social marketplace for Nigeria. The feed is entertainment first, co
 
 ## File Dictionary & Architecture
 
-```
 src/
   config/         Values that could change (app, timing, limits, features)
   labels/         All user-facing copy hardcoded (zero empty states, zero missing labels)
@@ -52,19 +51,11 @@ src/
   store/          Zustand stores (auth, feed, orders, settings, admin, ui)
   types/          Strict TypeScript definitions (no any)
   utils/          Helpers (formatPrice, normalizePhone, formatDate)
-```
 
 ---
 
 ## Running Locally
 
-```bash
-# 1. Install dependencies
 npm install
-
-# 2. Run local development server
 npm run dev
-
-# 3. Test compilation / typecheck
 npm run lint
-```

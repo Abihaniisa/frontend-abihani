@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Splash } from './components/Splash';
 import { BottomNav } from './components/BottomNav';
@@ -8,7 +8,9 @@ import { PrivacySheet } from './components/PrivacySheet';
 import { AboutSheet } from './components/AboutSheet';
 import { MilestoneCard } from './components/MilestoneCard';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import { AuthScreen } from './screens/AuthScreen';
 import { useUIStore } from './store/ui.store';
+import { useAuthStore } from './store/auth.store';
 
 export default function App(): React.ReactElement {
   const [splashFinished, setSplashFinished] = useState(false);
@@ -26,7 +28,8 @@ export default function App(): React.ReactElement {
     navigateBack,
   } = useUIStore();
 
-  // Edge-swipe or hardware back listener
+  const { isAuthenticated } = useAuthStore();
+
   useEffect(() => {
     const handlePopState = (e: PopStateEvent): void => {
       e.preventDefault();
@@ -37,7 +40,14 @@ export default function App(): React.ReactElement {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [navigateBack]);
 
-  // Show bottom nav on main tabs
+  if (!splashFinished) {
+    return <Splash onComplete={() => setSplashFinished(true)} />;
+  }
+
+  if (!isAuthenticated) {
+    return <AuthScreen />;
+  }
+
   const path = location.pathname;
   const showBottomNav =
     path === '/' ||
@@ -47,23 +57,14 @@ export default function App(): React.ReactElement {
 
   return (
     <div className="relative w-full min-h-[100dvh] bg-[#0B0B0F] text-[#F5F0E6] flex flex-col justify-between overflow-x-hidden font-sans">
-      {/* 1. Splash Screen under 1s */}
-      {!splashFinished && (
-        <Splash onComplete={() => setSplashFinished(true)} />
-      )}
-
-      {/* 2. PWA In-App Install Prompt Banner */}
       <PWAInstallPrompt />
 
-      {/* 3. Screen Router */}
       <div className="flex-1 w-full">
         <AppRoutes />
       </div>
 
-      {/* 4. Bottom Nav Capsule */}
       {showBottomNav && <BottomNav />}
 
-      {/* 5. Toasts (Bottom floating, auto-dismiss, max 2 stacked) */}
       <div className="fixed bottom-24 left-0 right-0 z-50 flex flex-col items-center gap-2 pointer-events-none px-4">
         {toasts.map((toast) => (
           <div
@@ -81,26 +82,10 @@ export default function App(): React.ReactElement {
         ))}
       </div>
 
-      {/* 6. Universal Sheets & Modals */}
-      <TermsSheet
-        isOpen={showTermsSheet}
-        onClose={() => setTermsSheet(false)}
-      />
-
-      <PrivacySheet
-        isOpen={showPrivacySheet}
-        onClose={() => setPrivacySheet(false)}
-      />
-
-      <AboutSheet
-        isOpen={showAboutSheet}
-        onClose={() => setAboutSheet(false)}
-      />
-
-      <MilestoneCard
-        milestone={activeMilestone}
-        onClose={closeMilestone}
-      />
+      <TermsSheet isOpen={showTermsSheet} onClose={() => setTermsSheet(false)} />
+      <PrivacySheet isOpen={showPrivacySheet} onClose={() => setPrivacySheet(false)} />
+      <AboutSheet isOpen={showAboutSheet} onClose={() => setAboutSheet(false)} />
+      <MilestoneCard milestone={activeMilestone} onClose={closeMilestone} />
     </div>
   );
 }

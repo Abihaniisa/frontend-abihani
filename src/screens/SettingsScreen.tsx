@@ -16,7 +16,7 @@ import {
 import { useAuthStore } from '../store/auth.store';
 import { useUIStore } from '../store/ui.store';
 import { NigerianBanks } from '../constants/banks';
-import { NigerianLocations } from '../constants/locations';
+import { NIGERIA_LOCATIONS } from '../constants/nigeria-locations';
 import { ApiService } from '../services';
 
 export const SettingsScreen: React.FC = () => {
@@ -25,7 +25,6 @@ export const SettingsScreen: React.FC = () => {
 
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // Bank payout states
   const [selectedBankId, setSelectedBankId] = useState(currentUser.payoutMethod?.bankId || NigerianBanks[0].id);
   const [accountNumber, setAccountNumber] = useState(currentUser.payoutMethod?.accountNumber || '');
   const [isVerifying, setIsVerifying] = useState(false);
@@ -33,7 +32,6 @@ export const SettingsScreen: React.FC = () => {
     currentUser.payoutMethod?.accountName || null
   );
 
-  // Notification toggles
   const [notifications, setNotifications] = useState({
     orders: true,
     messages: true,
@@ -79,7 +77,6 @@ export const SettingsScreen: React.FC = () => {
   const handleAccountNumberChange = (val: string): void => {
     const cleaned = val.replace(/\D/g, '').slice(0, 10);
     setAccountNumber(cleaned);
-    // Editing account number clears verified block
     if (verifiedAccountName && cleaned !== currentUser.payoutMethod?.accountNumber) {
       setVerifiedAccountName(null);
     }
@@ -90,12 +87,11 @@ export const SettingsScreen: React.FC = () => {
   };
 
   const handleDeleteAccount = (): void => {
-    addToast('Cannot delete account with open orders.', 'error');
+    addToast('Finish your open orders before deleting your account.', 'error');
   };
 
   return (
     <div className="w-full min-h-[100dvh] bg-[#0B0B0F] text-[#F5F0E6] pb-28 pt-safe select-none">
-      {/* Top Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
         <div className="flex items-center gap-3">
           <button
@@ -108,7 +104,6 @@ export const SettingsScreen: React.FC = () => {
           <h2 className="text-base font-bold text-[#F5F0E6]">Settings</h2>
         </div>
 
-        {/* Secret / direct Admin access for testing */}
         <button
           onClick={() => navigate('admin')}
           className="text-xs font-bold text-[#E7C27A] px-2.5 py-1 rounded-lg bg-neutral-900 border border-[#E7C27A]/30 flex items-center gap-1"
@@ -119,13 +114,11 @@ export const SettingsScreen: React.FC = () => {
       </div>
 
       <div className="p-4 space-y-6 max-w-lg mx-auto">
-        {/* 1. Account Section */}
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-[#B8B2A6] block mb-2 px-1">
             Account
           </span>
           <div className="rounded-2xl bg-neutral-900 border border-neutral-800 divide-y divide-neutral-800/80">
-            {/* Payout Method */}
             <div
               onClick={() => setActiveModal('payout')}
               className="p-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800/50"
@@ -146,7 +139,6 @@ export const SettingsScreen: React.FC = () => {
               <ChevronRight className="w-4 h-4 text-neutral-500" />
             </div>
 
-            {/* Location */}
             <div
               onClick={() => setActiveModal('location')}
               className="p-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800/50"
@@ -158,7 +150,6 @@ export const SettingsScreen: React.FC = () => {
               <ChevronRight className="w-4 h-4 text-neutral-500" />
             </div>
 
-            {/* Recovery Code */}
             <div
               onClick={() => setActiveModal('recovery')}
               className="p-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800/50"
@@ -175,7 +166,6 @@ export const SettingsScreen: React.FC = () => {
               <ChevronRight className="w-4 h-4 text-neutral-500" />
             </div>
 
-            {/* Switch / Add Account */}
             <div
               onClick={() => setActiveModal('accounts')}
               className="p-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800/50"
@@ -196,7 +186,6 @@ export const SettingsScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. Notifications Section (5 toggles, all on by default) */}
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-[#B8B2A6] block mb-2 px-1">
             Notifications
@@ -222,7 +211,6 @@ export const SettingsScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Support Section */}
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-[#B8B2A6] block mb-2 px-1">
             Support & Legal
@@ -241,7 +229,6 @@ export const SettingsScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* 4. Danger Zone */}
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-[#FF3B3B] block mb-2 px-1">
             Danger Zone
@@ -276,7 +263,6 @@ export const SettingsScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Payout Bank Modal */}
       {activeModal === 'payout' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs select-none">
           <div className="w-full max-w-sm bg-[#0B0B0F] border border-neutral-800 rounded-3xl p-5 shadow-2xl space-y-4">
@@ -316,7 +302,6 @@ export const SettingsScreen: React.FC = () => {
               />
             </div>
 
-            {/* Gold Verification Block */}
             {verifiedAccountName && (
               <div className="p-3.5 rounded-xl bg-[#E7C27A]/15 border border-[#E7C27A]/40 text-center">
                 <span className="text-[10px] text-neutral-400 block mb-0.5">Verified Account Name</span>
@@ -333,7 +318,7 @@ export const SettingsScreen: React.FC = () => {
                   disabled={accountNumber.length !== 10 || isVerifying}
                   className="w-full h-11 rounded-xl bg-neutral-800 text-[#F5F0E6] font-bold text-xs hover:bg-neutral-700 disabled:opacity-40"
                 >
-                  {isVerifying ? 'Verifying with NUBAN...' : 'Verify account'}
+                  {isVerifying ? 'Verifying...' : 'Verify account'}
                 </button>
               ) : (
                 <button
@@ -355,13 +340,12 @@ export const SettingsScreen: React.FC = () => {
         </div>
       )}
 
-      {/* Recovery Code Modal */}
       {activeModal === 'recovery' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs select-none">
           <div className="w-full max-w-sm bg-[#0B0B0F] border border-neutral-800 rounded-3xl p-6 text-center shadow-2xl">
             <h3 className="text-base font-bold text-[#F5F0E6] mb-1">Your Recovery Code</h3>
             <p className="text-xs text-[#B8B2A6] mb-4">
-              Keep this 8-digit key safe. It is your ultimate safeguard to recover this account.
+              Keep this 8-digit key safe. You will need it if you lose access.
             </p>
             <div className="py-3 px-6 rounded-xl bg-neutral-900 border border-neutral-800 font-mono text-xl font-extrabold text-[#E7C27A] tracking-widest tabular-nums mb-5">
               {recoveryCode || '84920183'}
@@ -376,13 +360,12 @@ export const SettingsScreen: React.FC = () => {
         </div>
       )}
 
-      {/* Location Modal */}
       {activeModal === 'location' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs select-none">
           <div className="w-full max-w-sm bg-[#0B0B0F] border border-neutral-800 rounded-3xl p-5 shadow-2xl">
             <h3 className="text-sm font-bold text-[#F5F0E6] mb-3">Default Shipping Location</h3>
             <div className="max-h-60 overflow-y-auto space-y-1.5 no-scrollbar mb-4">
-              {NigerianLocations.map((loc) => (
+              {NIGERIA_LOCATIONS.map((loc) => (
                 <button
                   key={loc}
                   onClick={() => {
@@ -411,7 +394,6 @@ export const SettingsScreen: React.FC = () => {
         </div>
       )}
 
-      {/* Switch Account Modal */}
       {activeModal === 'accounts' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs select-none">
           <div className="w-full max-w-sm bg-[#0B0B0F] border border-neutral-800 rounded-3xl p-5 shadow-2xl space-y-3">

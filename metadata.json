@@ -1,6 +1,5 @@
 {
   "name": "Abihani",
   "description": "The social marketplace. Discover. Like. Buy. Inside one feed.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "requestFramePermissions": []
 }

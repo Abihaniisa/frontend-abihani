@@ -1,5 +1,5 @@
 export const TimingConfig = {
-  splashDurationMs: 900,
+  splashDurationMs: 1800,
   toastShortDurationMs: 2400,
   toastLongDurationMs: 4000,
   slowConnectionThresholdMs: 10000,

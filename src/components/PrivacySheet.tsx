@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import { X, Lock } from './icons';
 
 interface PrivacySheetProps {
@@ -35,31 +35,31 @@ export const PrivacySheet: React.FC<PrivacySheetProps> = ({ isOpen, onClose }) =
             Your privacy is protected under the Nigeria Data Protection Act (NDPA) 2023.
           </p>
 
-          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">1. Information We Collect</h4>
+          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">1. What We Collect</h4>
           <p>
-            We collect your email address for account authentication and transactional updates. Phone numbers are treated as contact preferences for deliveries and dispute evidence, never as platform identity, and are shared only inside active order threads.
+            We collect your phone number for account access. We collect your email for the recovery path. Phone numbers are contact info used only inside active order threads. We do not use phone numbers to identify you anywhere else in the app.
           </p>
 
           <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">2. No Third-Party Tracking</h4>
           <p>
-            Abihani does not deploy third-party advertising pixels, biometric identifiers, or cross-site tracking cookies. Telemetry is strictly aggregated and privacy-preserving.
+            Abihani does not use third-party advertising pixels, biometric identifiers, or cross-site tracking cookies. We do not sell your data.
           </p>
 
-          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">3. Communications & Opt-out</h4>
+          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">3. Messages and Options</h4>
           <p>
-            In accordance with legal consumer safeguards, all transactional emails are limited to security and order events. You can manage push and notification settings inside the application.
+            Transactional messages are limited to security and order events. You can manage push and notification settings inside the app.
           </p>
 
           <div className="p-3.5 rounded-xl bg-neutral-900 border border-neutral-800 flex items-start gap-2.5 my-4">
             <Lock className="w-4 h-4 text-[#4ADE80] shrink-0 mt-0.5" />
             <p className="text-[11px] text-[#B8B2A6]">
-              Your financial payout bank account details are verified via official NUBAN lookups and never published to public seller profile pages.
+              Your payout bank account details are verified through official NUBAN lookups. They are never published on your public profile.
             </p>
           </div>
 
           <div className="pt-6 border-t border-neutral-800 text-center">
             <span className="text-[11px] text-neutral-500 font-medium block">
-              Abihani is a product of Abihani Express, registered in Nigeria.
+              Abihani. Damaturu, Yobe State, Nigeria.
             </span>
           </div>
         </div>

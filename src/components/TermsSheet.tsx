@@ -32,25 +32,25 @@ export const TermsSheet: React.FC<TermsSheetProps> = ({ isOpen, onClose }) => {
 
         <div className="flex-1 overflow-y-auto px-6 py-5 text-xs text-[#B8B2A6] leading-relaxed space-y-4 no-scrollbar">
           <p className="text-sm font-semibold text-[#F5F0E6]">
-            Welcome to Abihani. By accessing or using our marketplace platform, you agree to these Terms.
+            Welcome to Abihani. By using the app, you agree to these Terms.
           </p>
 
-          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">1. One Account & Direct Platform Model</h4>
+          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">1. One Account for Everyone</h4>
           <p>
-            Abihani provides a social marketplace for Nigeria where every user profile can both share content, purchase items, and sell original creations. We operate under direct peer-to-peer settlement during initial launch.
+            Abihani is a social marketplace for Nigeria. One profile for every user. No buyer mode. No seller mode. Anyone can post. Anyone can buy. Anyone can sell.
           </p>
 
-          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">2. Direct Settlement & Manual Orders</h4>
+          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">2. Direct Payment Between Users</h4>
           <p>
-            During manual launch mode, buyers transfer payments directly to the verified bank account provided by the seller. Abihani does not act as a depository or financial institution. You agree to only transfer funds to sellers you evaluate as credible.
+            At launch, buyers pay sellers directly to the seller's bank account. Abihani does not hold the money. Verify the seller's bank details before you send. Abihani cannot reverse a bank transfer once it leaves your account.
           </p>
 
-          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">3. Disputes and Banning Sanctions</h4>
+          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">3. Reports and Account Actions</h4>
           <p>
-            While Abihani cannot reverse bank transfers executed between independent private bank accounts, our integrity team thoroughly investigates reported non-delivery, counterfeit goods, or payment fraud. Proven offenders face immediate suspension, forfeiture of verified seller credentials, and platform banning.
+            Abihani cannot reverse bank transfers made between two private bank accounts. But every report is reviewed by our team. Verified cases of fraud or non-delivery lead to suspension and a permanent ban from the platform.
           </p>
 
-          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">4. Age Gate</h4>
+          <h4 className="font-bold text-[#F5F0E6] text-xs pt-2">4. Age Requirement</h4>
           <p>
             You must be at least 18 years of age to open an account, list products, or enter commercial transactions on Abihani under the laws of the Federal Republic of Nigeria.
           </p>
@@ -58,13 +58,13 @@ export const TermsSheet: React.FC<TermsSheetProps> = ({ isOpen, onClose }) => {
           <div className="p-3.5 rounded-xl bg-neutral-900 border border-neutral-800 flex items-start gap-2.5 my-4">
             <ShieldAlert className="w-4 h-4 text-[#E7C27A] shrink-0 mt-0.5" />
             <p className="text-[11px] text-[#B8B2A6]">
-              All sellers must provide accurate item photographs, genuine Nigerian ship-from locations, and honor delivery commitments.
+              All sellers must provide accurate item photos, a real Nigerian ship-from location, and honor delivery commitments.
             </p>
           </div>
 
           <div className="pt-6 border-t border-neutral-800 text-center">
             <span className="text-[11px] text-neutral-500 font-medium block">
-              Abihani is a product of Abihani Express, registered in Nigeria.
+              Abihani. Damaturu, Yobe State, Nigeria.
             </span>
           </div>
         </div>

@@ -7,7 +7,7 @@ interface AuthState {
   isAuthenticated: boolean;
   recoveryCode: string | null;
   linkedAccounts: UserProfile[];
-  loginWithOtp: (email: string, code: string) => Promise<void>;
+  loginWithPhone: (phone: string, code: string) => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => void;
   switchAccount: (userId: string) => void;
   logout: () => void;
@@ -15,12 +15,12 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
   currentUser: AuthService.getCurrentUser(),
-  isAuthenticated: true, // Auto-authenticated in mock stage with default user
-  recoveryCode: '84920183',
+  isAuthenticated: false,
+  recoveryCode: null,
   linkedAccounts: AuthService.getLinkedAccounts(),
 
-  loginWithOtp: async (email: string, code: string) => {
-    const session = await AuthService.verifyEmailOtp(email, code);
+  loginWithPhone: async (phone: string, code: string) => {
+    const session = await AuthService.verifyPhoneOtp(phone, code);
     set({
       currentUser: session.user,
       isAuthenticated: true,
